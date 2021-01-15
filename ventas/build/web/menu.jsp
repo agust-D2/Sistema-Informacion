@@ -47,7 +47,7 @@
             Statement pst3;
             ResultSet rs3;
             
-            String url = "jdbc:mysql://localhost:3306/ventas_si";
+            String url = "jdbc:mysql://localhost:3306/ventas_avance";
             String user = "root";
             String password = "12345678";
             
@@ -84,13 +84,7 @@ input[type=button], input[type=submit], input[type=reset] {
     <body style="background-color:#c1432e">
        
        
-    <!-- Start Page Loading -->
-    <div id="loader-wrapper">
-        <div id="loader"></div>        
-        <div class="loader-section section-left"></div><!-- panel para la derecha -->
-        <div class="loader-section section-right"></div><!-- panel para la izquierda -->
-    </div>
-    <!-- End Page Loading -->
+    
     
     <%
             try {
@@ -113,6 +107,20 @@ input[type=button], input[type=submit], input[type=reset] {
            }
            
            if (s_boton_login!=null) {
+           
+           %>
+           
+    <!-- Start Page Loading -->
+    <div id="loader-wrapper">
+        <div id="loader"></div>        
+        <div class="loader-section section-left"></div><!-- panel para la derecha -->
+        <div class="loader-section section-right"></div><!-- panel para la izquierda -->
+    </div>
+    <!-- End Page Loading -->
+           
+           
+           <%
+           
            consulta1 = "select count(*) from usuario where usuario='"+s_usuario+"' and clave='"+ s_clave+"';";
            
                 cn1 = DriverManager.getConnection(url,user,password);
@@ -221,8 +229,8 @@ input[type=button], input[type=submit], input[type=reset] {
                           
                         <form action="<% out.println(rs.getString(3)); %>" method="post">
                         <input type="hidden" value="1" name="f_boton_regresar" />
-                        <input type="hidden" value="<% out.println(rs.getString(1)); %>" name="f_idacceso" />
-                        <input type="hidden" value="<% out.println(s_idusuario); %>" name="f_idusuario" />
+                        <input type="hidden" value="<%out.println(rs.getString(1));%>" name="f_idacceso" />
+                        <input type="hidden" value="<%out.println(s_idusuario);%>" name="f_idusuario" />
                         <input style="color:#22262e" type="submit" value="<%out.println(rs.getString(2)); %>" />
                         </form>
                             <%

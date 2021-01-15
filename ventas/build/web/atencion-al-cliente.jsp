@@ -47,7 +47,7 @@
             Statement pst3;
             ResultSet rs3;
             
-            String url = "jdbc:mysql://localhost:3306/ventas_si";
+            String url = "jdbc:mysql://localhost:3306/ventas_avance";
             String user = "root";
             String password = "12345678";
             
@@ -84,14 +84,7 @@ input[type=button], input[type=submit], input[type=reset] {
 
     <body style="background-color:#c1432e">
        
-       
-    <!-- Start Page Loading -->
-    <div id="loader-wrapper">
-        <div id="loader"></div>        
-        <div class="loader-section section-left"></div><!-- panel para la derecha -->
-        <div class="loader-section section-right"></div><!-- panel para la izquierda -->
-    </div>
-    <!-- End Page Loading -->
+    
     
     <%
             try {
@@ -116,7 +109,7 @@ input[type=button], input[type=submit], input[type=reset] {
            
            if (s_boton_login!=null) {
            consulta1 = "select count(*) from usuario where usuario='"+s_usuario+"' and clave='"+ s_clave+"';";
-           
+          
                 cn1 = DriverManager.getConnection(url,user,password);
                 pst1 = cn1.createStatement();
                 rs1 = pst1.executeQuery(consulta1);
@@ -149,11 +142,11 @@ input[type=button], input[type=submit], input[type=reset] {
         }
                      
         }
-                        consulta3 = "select usuario.usuario, usuario.nombre, usuario.apellido_pat,usuario.apellido_mat, tipo_usuario.nombre from usuario, tipo_usuario where tipo_usuario.idtipo_usuario=usuario.id_tipo_usuario and idusuario='"+s_idusuario+"'";
+                        consulta3 = "select usuario.usuario, usuario.nombre, usuario.apellido_pat,usuario.apellido_mat, tipo_usuario.nombre from usuario, tipo_usuario where tipo_usuario.idtipo_usuario=usuario.id_tipo_usuario and idusuario="+s_idusuario+";";
                         
                         cn3 = DriverManager.getConnection(url,user,password);
                         pst3 = cn3.createStatement();
-                        rs3 = pst3.executeQuery(consulta3);
+                        rs3= pst3.executeQuery(consulta3);
                         if(rs3.next()){
                             s_usuario = rs3.getString(1);
                             s_nombre = rs3.getString(2);

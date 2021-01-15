@@ -3,8 +3,12 @@ package org.apache.jsp;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.sql.*;
 import bd.*;
+import java.sql.*;
+import java.util.*;
 
 public final class datosusuarios_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
@@ -12,12 +16,16 @@ public final class datosusuarios_jsp extends org.apache.jasper.runtime.HttpJspBa
 
             String consulta;
             Connection cn;
-            PreparedStatement pst;
+            Statement pst;
             ResultSet rs;
             String s_accion;
             String s_idusuario;
+            String s_idusuario1;
             String s_usuario;
             String s_clave;
+            String url = "jdbc:mysql://localhost:3306/ventas_avance";
+            String user = "root";
+            String password = "12345678";
 
         
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
@@ -60,6 +68,8 @@ public final class datosusuarios_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("\n");
       out.write("\n");
       out.write("\n");
+      out.write("\n");
+      out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
       out.write("    <head>\n");
@@ -88,15 +98,9 @@ public final class datosusuarios_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("        ");
       out.write("\n");
       out.write("    </head>\n");
-      out.write("    <body class=\"blue\">\n");
+      out.write("    <body style=\"background-color:#c1432e\">\n");
       out.write("        \n");
-      out.write("        <!-- Start Page Loading -->\n");
-      out.write("    <div id=\"loader-wrapper\">\n");
-      out.write("        <div id=\"loader\"></div>        \n");
-      out.write("        <div class=\"loader-section section-left\"></div><!-- panel para la derecha -->\n");
-      out.write("        <div class=\"loader-section section-right\"></div><!-- panel para la izquierda -->\n");
-      out.write("    </div>\n");
-      out.write("    <!-- End Page Loading -->\n");
+      out.write("       \n");
       out.write("        \n");
       out.write("        \n");
       out.write("        \n");
@@ -105,26 +109,31 @@ public final class datosusuarios_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("                        \n");
       out.write("        \n");
       out.write("                            \n");
-      out.write("                            \n");
+      out.write("     <div>⠀⠀</div>                       \n");
       out.write("                        \n");
       out.write("                        ");
 
-            try {
-                ConectaBd bd = new ConectaBd();
-                cn = bd.getConnection();
+             try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ConectaBd.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
                 s_accion = request.getParameter("f_accion");
                 s_idusuario = request.getParameter("f_idusuario");
+                s_idusuario1 = request.getParameter("f_idusuario1");
                 
-                           
+                  cn = DriverManager.getConnection(url,user,password);         
 
                 if (s_accion != null && s_accion.equals("M1")) {
                     consulta = "select usuario, clave "
                             + " from usuario "
                             + " where "
-                            + " idusuario = " + s_idusuario;
+                            + " idusuario = " + s_idusuario1;
                     //out.print(consulta);
-                    pst = cn.prepareStatement(consulta);
-                    rs = pst.executeQuery();
+                    
+                    pst = cn.createStatement();
+                    rs = pst.executeQuery(consulta);
                     if (rs.next()) {
 
         
@@ -276,8 +285,9 @@ public final class datosusuarios_jsp extends org.apache.jasper.runtime.HttpJspBa
                             consulta = " delete from usuario "
                                     + " where idusuario = " + s_idusuario + " ; ";
                             //out.print(consulta);
-                            pst = cn.prepareStatement(consulta);
-                            pst.executeUpdate();
+                            
+                pst = cn.createStatement();
+                pst.executeUpdate(consulta);
                         } else if (s_accion.equals("M2")) {
                             //out.print("Editar --> " + s_idpersona);
                             s_usuario = request.getParameter("f_usuario");
@@ -287,25 +297,25 @@ public final class datosusuarios_jsp extends org.apache.jasper.runtime.HttpJspBa
                                     + " usuario = '" + s_usuario + "', "
                                     + " clave = '" + s_clave + "' "
                                     + " where"
-                                    + " idusuario = " + s_idusuario;
+                                    + " idusuario = " + s_idusuario+ "; ";
                             //out.print(consulta);
-                            pst = cn.prepareStatement(consulta);
-                            pst.executeUpdate();
+                            pst = cn.createStatement();
+                pst.executeUpdate(consulta);
                         } else if (s_accion.equals("C")) {
                             s_usuario = request.getParameter("f_usuario");
                             s_clave = request.getParameter("f_clave");
                             //out.println("Registrando nuevo estudiante...");
-                            consulta = " insert into usuario (usuario,clave) "
+                            consulta = " insert into usuario (usuario, clave) "
                                     + " values ('" + s_usuario + "','" + s_clave + "'); ";
                             //out.print(consulta);
-                            pst = cn.prepareStatement(consulta);
-                            pst.executeUpdate();
+                            pst = cn.createStatement();
+                pst.executeUpdate(consulta);
                         }
                     }
                     consulta = "select idusuario, usuario, clave from usuario";
                     //out.print(consulta);
-                    pst = cn.prepareStatement(consulta);
-                    rs = pst.executeQuery();
+                    pst = cn.createStatement();
+                    rs = pst.executeQuery(consulta);
                     int num = 0;
                     String idp;
                     while (rs.next()) {
@@ -345,9 +355,7 @@ out.print(idp);
                                                 rs.close();
                                                 pst.close();
                                                 cn.close();
-                                            } catch (SQLException e) {
-                                                System.out.println("Error: " + e.getMessage());
-                                            }
+                                           
                                         
       out.write("\n");
       out.write("\n");
@@ -365,22 +373,19 @@ out.print(idp);
       out.write("                                            </div>\n");
       out.write("                                        </div>\n");
       out.write("                                        \n");
-      out.write("                                        <div class=\"rown\">\n");
-      out.write("                                            <div class=\"cell\">\n");
-      out.write("                                                <a href=\"menu.jsp\" class=\"center\"><i class=\"icon-arrow-left icon-large\"></i></a>\n");
-      out.write("                                            </div>\n");
-      out.write("                                            <div class=\"cell\">\n");
-      out.write("                                            </div>\n");
-      out.write("                                            <div class=\"cell\">\n");
-      out.write("                                            </div>\n");
-      out.write("                                            <div class=\"cell\">\n");
-      out.write("                                            </div>\n");
-      out.write("                                            <div class=\"cell\">\n");
-      out.write("                                            </div>\n");
-      out.write("                                            \n");
-      out.write("                                            \n");
+      out.write("                                        \n");
+      out.write("                                    </div><div class=\"center\" style=\"text-align: center; padding-top: 0px; margin-top: 0px; padding-bottom: 15px; margin-bottom: 15px;\">\n");
+      out.write("                                            <form action=\"menu.jsp\" method=\"post\">\n");
+      out.write("                        <input type=\"hidden\" value=\"1\" name=\"f_boton_regresar\" />\n");
+      out.write("                        <input type=\"hidden\" value=\"");
+ out.println(s_idusuario); 
+      out.write("\" name=\"f_idusuario\" />\n");
+      out.write("                        <input style=\"color:#c1432e\" type=\"submit\" value=\"Volver\" />\n");
+      out.write("                        </form>\n");
       out.write("                                        </div>\n");
-      out.write("                                    </div>\n");
+      out.write("                                            </div>\n");
+      out.write("                        \n");
+      out.write("                                            <div class=\"cell\">\n");
       out.write("                                </div>\n");
       out.write("                            </div>\n");
       out.write("                        </div>\n");

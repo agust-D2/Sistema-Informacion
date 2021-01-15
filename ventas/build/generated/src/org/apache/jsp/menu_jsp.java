@@ -32,7 +32,7 @@ public final class menu_jsp extends org.apache.jasper.runtime.HttpJspBase
             Statement pst3;
             ResultSet rs3;
             
-            String url = "jdbc:mysql://localhost:3306/ventas_si";
+            String url = "jdbc:mysql://localhost:3306/ventas_avance";
             String user = "root";
             String password = "12345678";
             
@@ -45,7 +45,7 @@ public final class menu_jsp extends org.apache.jasper.runtime.HttpJspBase
             String s_nombre;
             String s_apellido_pat;
             String s_apellido_mat;
-            String s_tipo;
+            String s_tipo="";
             String s_estado;
             String resultado="";
     
@@ -113,16 +113,23 @@ public final class menu_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("       \n");
       out.write("    </head>\n");
+      out.write("    \n");
+      out.write("    <style> \n");
+      out.write("input[type=button], input[type=submit], input[type=reset] {\n");
+      out.write("  background-color: transparent;\n");
+      out.write("  border: none;\n");
+      out.write("  color: none;\n");
+      out.write("  padding: 0px;\n");
+      out.write("  text-decoration: none;\n");
+      out.write("  margin: 0px;\n");
+      out.write("  cursor: pointer;\n");
+      out.write("}\n");
+      out.write("</style>\n");
+      out.write("\n");
       out.write("    <body style=\"background-color:#c1432e\">\n");
       out.write("       \n");
       out.write("       \n");
-      out.write("    <!-- Start Page Loading -->\n");
-      out.write("    <div id=\"loader-wrapper\">\n");
-      out.write("        <div id=\"loader\"></div>        \n");
-      out.write("        <div class=\"loader-section section-left\"></div><!-- panel para la derecha -->\n");
-      out.write("        <div class=\"loader-section section-right\"></div><!-- panel para la izquierda -->\n");
-      out.write("    </div>\n");
-      out.write("    <!-- End Page Loading -->\n");
+      out.write("    \n");
       out.write("    \n");
       out.write("    ");
 
@@ -146,8 +153,23 @@ public final class menu_jsp extends org.apache.jasper.runtime.HttpJspBase
            }
            
            if (s_boton_login!=null) {
+           
+           
+      out.write("\n");
+      out.write("           \n");
+      out.write("    <!-- Start Page Loading -->\n");
+      out.write("    <div id=\"loader-wrapper\">\n");
+      out.write("        <div id=\"loader\"></div>        \n");
+      out.write("        <div class=\"loader-section section-left\"></div><!-- panel para la derecha -->\n");
+      out.write("        <div class=\"loader-section section-right\"></div><!-- panel para la izquierda -->\n");
+      out.write("    </div>\n");
+      out.write("    <!-- End Page Loading -->\n");
+      out.write("           \n");
+      out.write("           \n");
+      out.write("           ");
+
+           
            consulta1 = "select count(*) from usuario where usuario='"+s_usuario+"' and clave='"+ s_clave+"';";
-           out.print(consulta1);
            
                 cn1 = DriverManager.getConnection(url,user,password);
                 pst1 = cn1.createStatement();
@@ -164,7 +186,6 @@ public final class menu_jsp extends org.apache.jasper.runtime.HttpJspBase
                         response.sendRedirect("login.jsp?f_error=1");
             }else{
                         consulta2 = "select idusuario, estado from usuario where usuario='"+s_usuario+"' and clave='"+ s_clave+"';";
-                        out.print(consulta1);
                         
                         cn2 = DriverManager.getConnection(url,user,password);
                         pst2 = cn2.createStatement();
@@ -201,7 +222,7 @@ public final class menu_jsp extends org.apache.jasper.runtime.HttpJspBase
                    
                         
       out.write("\n");
-      out.write("   <div style=\"padding: 0px; margin-bottom: 0px;\" class=\"row\">\n");
+      out.write("         <div style=\"padding: 0px; margin-bottom: 0px;\" class=\"row\">\n");
       out.write("         <div style=\"background-color:#1d1d1f; width: 600px; padding: 0px; margin-bottom: 0px; margin-top: 0px;\" class=\"center col s12 z-depth-4 card-panel\">\n");
       out.write("                    <div style=\"padding: 0px; margin-bottom: 0px;\"  class=\"input-field col s12 center\">\n");
       out.write("                        <img style=\"padding: 0px; margin-bottom: 0px; margin-top: 0px;\" src=\"images/icons/profile.png\" alt=\"iconmenu\">\n");
@@ -217,22 +238,21 @@ public final class menu_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write(")</strong></a></p>\n");
       out.write("                    </div>\n");
       out.write("        </div>\n");
-      out.write("     </div>\n");
-      out.write("    <div id=\"login-page\" class=\"row\">\n");
+      out.write("        </div>\n");
+      out.write("                    \n");
+      out.write("    <div style=\"padding: 0px; margin-bottom: 0px;\" id=\"login-page\" class=\"row\">\n");
       out.write("        <div class=\"col s12 z-depth-4 card-panel\">\n");
       out.write("                    <div class=\"input-field col s12 center\">\n");
-      out.write("                        <p class=\"center login-form-text\" >Tabla MENU</p>\n");
+      out.write("                        <p class=\"center login-form-text\" >MENU</p>\n");
       out.write("                    </div>\n");
       out.write("                    <div class=\"col s12 center\">\n");
-      out.write("                        <p class=\"center\" style=\"font-size:10px;\"><a>presione un REGISTRO</a></p>\n");
+      out.write("                        <p class=\"center\" style=\"font-size:10px;\"><a>presione una OPCIÓN</a></p>\n");
       out.write("                    </div>\n");
-      out.write("            \n");
+      out.write("                    \n");
+      out.write("                    \n");
       out.write("            <div class=\"table\">\n");
       out.write("\n");
       out.write("                \n");
-      out.write("\n");
-      out.write("                \n");
-      out.write("                        \n");
       out.write("                        \n");
 
             
@@ -241,8 +261,8 @@ public final class menu_jsp extends org.apache.jasper.runtime.HttpJspBase
     
     
                         
-                        consulta = "select idacceso, nombre, url from privilegios where estado='A' order by orden asc";
-                        out.print(consulta);
+                        consulta = "select privilegios.idacceso, privilegios.nombre, privilegios.url from privilegios, detalle_privilegios, usuario where usuario.idusuario=detalle_privilegios.idusuario AND privilegios.idacceso=detalle_privilegios.idacceso AND detalle_privilegios.estado='A' and usuario.idusuario='"+s_idusuario+"' order by privilegios.orden asc";
+                        
                          
 
                         
@@ -255,14 +275,42 @@ public final class menu_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("                <div class=\"rown\">\n");
       out.write("                    <div class=\"cell\" data-title=\"Name\">\n");
-      out.write("                        \n");
-      out.write("                            <a style=\"color:#22262e \" href=\"");
+      out.write("                        ");
+if(rs.getString(1).equals("7")){ 
+      out.write("\n");
+      out.write("                        <form action=\"");
  out.println(rs.getString(3)); 
-      out.write('"');
-      out.write('>');
+      out.write("\" method=\"post\">\n");
+      out.write("                        <input style=\"color:#c1432e\" type=\"submit\" value=\"");
 out.println(rs.getString(2)); 
-      out.write("</a>\n");
-      out.write("                        \n");
+      out.write("\" />\n");
+      out.write("                        </form>\n");
+      out.write("                        ");
+
+                        
+                            }else{
+      out.write("\n");
+      out.write("                          \n");
+      out.write("                        <form action=\"");
+ out.println(rs.getString(3)); 
+      out.write("\" method=\"post\">\n");
+      out.write("                        <input type=\"hidden\" value=\"1\" name=\"f_boton_regresar\" />\n");
+      out.write("                        <input type=\"hidden\" value=\"");
+out.println(rs.getString(1));
+      out.write("\" name=\"f_idacceso\" />\n");
+      out.write("                        <input type=\"hidden\" value=\"");
+out.println(s_idusuario);
+      out.write("\" name=\"f_idusuario\" />\n");
+      out.write("                        <input style=\"color:#22262e\" type=\"submit\" value=\"");
+out.println(rs.getString(2)); 
+      out.write("\" />\n");
+      out.write("                        </form>\n");
+      out.write("                            ");
+
+}
+                        
+      out.write("\n");
+      out.write("                            \n");
       out.write("                    </div>\n");
       out.write("                </div>\n");
       out.write("                ");

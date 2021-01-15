@@ -858,7 +858,7 @@ else{
       out.write("        <div id=\"login-page\" class=\"row\" style=\"width: 300px;\">\n");
       out.write("            <div class=\"col s12 z-depth-4 card-panel\">\n");
       out.write("                <div class=\"col s12 center\">\n");
-      out.write("                    <p class=\"center\" style=\"font-size:10px;\">DNI no Registrado <a href=\"datosclientes.jsp?f_accion=C1\">REGISTRAR NUEVO CLIENTE</a></p>\n");
+      out.write("                    <p class=\"center\" style=\"font-size:10px;\">DNI no registrado, <a href=\"datosclientes.jsp?f_accion=C1\"> CLICK AQUI PARA REGISTRAR NUEVO CLIENTE</a></p>\n");
       out.write("                </div>\n");
       out.write("            </div>\n");
       out.write("        </div>\n");

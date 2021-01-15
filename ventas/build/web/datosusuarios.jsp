@@ -3,9 +3,11 @@
     Created on : 05/02/2020, 10:22:08 AM
     Author     : Usuario
 --%>
-
-<%@page import="java.sql.*"%>
-<%@page import="bd.*"%>
+<%@page import="java.util.logging.Logger"%>
+<%@page import="java.util.logging.Level"%>
+<%@page import="java.sql.*" %>
+<%@page import="bd.*" %>
+<%@page import="java.sql.*,java.util.*"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -36,16 +38,20 @@
         <%!
             String consulta;
             Connection cn;
-            PreparedStatement pst;
+            Statement pst;
             ResultSet rs;
             String s_accion;
             String s_idusuario;
+            String s_idusuario1;
             String s_usuario;
             String s_clave;
+            String url = "jdbc:mysql://localhost:3306/ventas_avance";
+            String user = "root";
+            String password = "12345678";
 
         %>
     </head>
-    <body class="blue">
+    <body style="background-color:#c1432e">
         
        
         
@@ -59,22 +65,27 @@
      <div>⠀⠀</div>                       
                         
                         <%
-            try {
-                ConectaBd bd = new ConectaBd();
-                cn = bd.getConnection();
+             try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ConectaBd.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
                 s_accion = request.getParameter("f_accion");
                 s_idusuario = request.getParameter("f_idusuario");
+                s_idusuario1 = request.getParameter("f_idusuario1");
                 
-                           
+                  cn = DriverManager.getConnection(url,user,password);         
 
                 if (s_accion != null && s_accion.equals("M1")) {
                     consulta = "select usuario, clave "
                             + " from usuario "
                             + " where "
-                            + " idusuario = " + s_idusuario;
+                            + " idusuario = " + s_idusuario1;
                     //out.print(consulta);
-                    pst = cn.prepareStatement(consulta);
-                    rs = pst.executeQuery();
+                    
+                    pst = cn.createStatement();
+                    rs = pst.executeQuery(consulta);
                     if (rs.next()) {
 
         %>
@@ -215,8 +226,9 @@
                             consulta = " delete from usuario "
                                     + " where idusuario = " + s_idusuario + " ; ";
                             //out.print(consulta);
-                            pst = cn.prepareStatement(consulta);
-                            pst.executeUpdate();
+                            
+                pst = cn.createStatement();
+                pst.executeUpdate(consulta);
                         } else if (s_accion.equals("M2")) {
                             //out.print("Editar --> " + s_idpersona);
                             s_usuario = request.getParameter("f_usuario");
@@ -226,25 +238,25 @@
                                     + " usuario = '" + s_usuario + "', "
                                     + " clave = '" + s_clave + "' "
                                     + " where"
-                                    + " idusuario = " + s_idusuario;
+                                    + " idusuario = " + s_idusuario+ "; ";
                             //out.print(consulta);
-                            pst = cn.prepareStatement(consulta);
-                            pst.executeUpdate();
+                            pst = cn.createStatement();
+                pst.executeUpdate(consulta);
                         } else if (s_accion.equals("C")) {
                             s_usuario = request.getParameter("f_usuario");
                             s_clave = request.getParameter("f_clave");
                             //out.println("Registrando nuevo estudiante...");
-                            consulta = " insert into usuario (usuario,clave) "
+                            consulta = " insert into usuario (usuario, clave) "
                                     + " values ('" + s_usuario + "','" + s_clave + "'); ";
                             //out.print(consulta);
-                            pst = cn.prepareStatement(consulta);
-                            pst.executeUpdate();
+                            pst = cn.createStatement();
+                pst.executeUpdate(consulta);
                         }
                     }
                     consulta = "select idusuario, usuario, clave from usuario";
                     //out.print(consulta);
-                    pst = cn.prepareStatement(consulta);
-                    rs = pst.executeQuery();
+                    pst = cn.createStatement();
+                    rs = pst.executeQuery(consulta);
                     int num = 0;
                     String idp;
                     while (rs.next()) {
@@ -272,9 +284,7 @@
                                                 rs.close();
                                                 pst.close();
                                                 cn.close();
-                                            } catch (SQLException e) {
-                                                System.out.println("Error: " + e.getMessage());
-                                            }
+                                           
                                         %>
 
                                         <div class="rown">
@@ -291,22 +301,17 @@
                                             </div>
                                         </div>
                                         
-                                        <div class="rown">
-                                            <div class="cell">
-                                                <a href="menu.jsp" class="center"><i class="icon-arrow-left icon-large"></i></a>
-                                            </div>
-                                            <div class="cell">
-                                            </div>
-                                            <div class="cell">
-                                            </div>
-                                            <div class="cell">
-                                            </div>
-                                            <div class="cell">
-                                            </div>
-                                            
-                                            
+                                        
+                                    </div><div class="center" style="text-align: center; padding-top: 0px; margin-top: 0px; padding-bottom: 15px; margin-bottom: 15px;">
+                                            <form action="menu.jsp" method="post">
+                        <input type="hidden" value="1" name="f_boton_regresar" />
+                        <input type="hidden" value="<% out.println(s_idusuario); %>" name="f_idusuario" />
+                        <input style="color:#c1432e" type="submit" value="Volver" />
+                        </form>
                                         </div>
-                                    </div>
+                                            </div>
+                        
+                                            <div class="cell">
                                 </div>
                             </div>
                         </div>
